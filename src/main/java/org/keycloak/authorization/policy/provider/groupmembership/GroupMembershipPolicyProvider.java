@@ -17,6 +17,7 @@ import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.authorization.GroupMembershipPolicyRepresentation;
 
 public class GroupMembershipPolicyProvider implements PolicyProvider {
+    private static final String RESOURCE_NAME_PREFIX = "group.resource.";
 
     private final BiFunction<Policy, AuthorizationProvider, GroupMembershipPolicyRepresentation> representationFunction;
 
@@ -26,14 +27,21 @@ public class GroupMembershipPolicyProvider implements PolicyProvider {
 
     @Override
     public void evaluate(Evaluation evaluation) {
+        //https://github.com/keycloak/keycloak/blob/master/services/src/main/java/org/keycloak/services/resources/admin/permissions/GroupPermissions.java
         Resource resource = evaluation.getPermission().getResource();
-        if (!"group".equalsIgnoreCase(resource.getType())) {
+        if (!"Group".equals(resource.getType())) {
+            return;
+        }
+
+        String resourceName = resource.getName();
+        if (!resourceName.startsWith(RESOURCE_NAME_PREFIX)) {
             return;
         }
         
+        String groupId = resourceName.substring(RESOURCE_NAME_PREFIX.length());
         AuthorizationProvider authorizationProvider = evaluation.getAuthorizationProvider();
         RealmModel realm = authorizationProvider.getRealm();
-        GroupModel allowedGroup = realm.getGroupById(resource.getId());
+        GroupModel allowedGroup = realm.getGroupById(groupId);
         if (allowedGroup == null) {
             return;
         }

@@ -2,8 +2,6 @@
 
 var module = angular.module('keycloak');
 
-module.requires.push('ui.ace');
-
 module.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when('/realms/:realm/clients/:client/authz/resource-server/policy/group-membership/create', {
@@ -29,9 +27,9 @@ module.config(['$routeProvider', function ($routeProvider) {
             },
             controller: 'ResourceServerPolicyGroupMembershipDetailCtrl'
         });
-});
+}]);
 
-module.controller('ResourceServerPolicyGroupMembershipDetailCtrl', function ($scope, $route, $location, realm, PolicyController, client, serverInfo) {
+module.controller('ResourceServerPolicyGroupMembershipDetailCtrl', function ($scope, realm, client, PolicyController) {
     PolicyController.onInit({
         getPolicyType: function () {
             return "group-membership";

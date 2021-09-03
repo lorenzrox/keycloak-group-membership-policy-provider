@@ -18,7 +18,7 @@ public class GroupMembershipPolicyProviderFactory implements PolicyProviderFacto
 
     @Override
     public String getId() {
-        return "groupmembership";
+        return "group-membership";
     }
 
     @Override

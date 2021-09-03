@@ -5,7 +5,7 @@ public class GroupMembershipPolicyRepresentation extends AbstractPolicyRepresent
     
     @Override
     public String getType() {
-        return "groupmembership";
+        return "group-membership";
     }
 
     public String getGroupsClaim() {

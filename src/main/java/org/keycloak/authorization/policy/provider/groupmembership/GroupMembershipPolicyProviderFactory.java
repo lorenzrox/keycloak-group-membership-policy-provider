@@ -50,7 +50,7 @@ public class GroupMembershipPolicyProviderFactory
 
         Map<String, String> config = policy.getConfig();
         representation.setGroupsClaim(config.get("groupsClaim"));
-        representation.setPattern(config.get("groupPattern"));
+        representation.setPattern(config.get("pattern"));
         representation
                 .setResourceMatchTarget(ResourceMatchTarget.valueOf(config.get("resourceMatchTarget").toUpperCase()));
         representation.setResourceMatchAttributeName(config.get("resourceMatchAttributeName"));

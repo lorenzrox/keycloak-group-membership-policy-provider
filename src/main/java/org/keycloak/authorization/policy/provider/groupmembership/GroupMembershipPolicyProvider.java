@@ -49,20 +49,11 @@ public class GroupMembershipPolicyProvider implements PolicyProvider {
         }
 
         for (GroupModel groupModel : allowedGroups) {
+            String allowedGroupPath = buildGroupPath(groupModel) + '/';
+
             for (int i = 0; i < groupsClaim.size(); i++) {
                 String group = groupsClaim.asString(i);
-
-                if (group.indexOf('/') != -1) {
-                    String allowedGroupPath = buildGroupPath(groupModel);
-                    if (group.startsWith(allowedGroupPath)) {
-                        evaluation.grant();
-                        return;
-                    }
-                }
-
-                // in case the group from the claim does not represent a path, we just check an
-                // exact name match
-                if (group.equals(groupModel.getName())) {
+                if (group.startsWith(allowedGroupPath) || group.equals(groupModel.getName())) {
                     evaluation.grant();
                     return;
                 }

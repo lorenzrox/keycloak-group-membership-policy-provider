@@ -146,7 +146,9 @@ public class GroupMembershipPolicyProviderFactory
             config.put("groupsClaim", groupsClaim);
         }
 
-        if (pattern != null) {
+        if (pattern == null) {
+            config.remove("pattern");
+        } else {
             config.put("pattern", pattern);
         }
 
@@ -154,12 +156,16 @@ public class GroupMembershipPolicyProviderFactory
 
         if (resourceMatchTarget == ResourceMatchTarget.ATTRIBUTE) {
             config.put("resourceMatchAttributeName", resourceMatchAttributeName);
+        } else {
+            config.remove("resourceMatchAttributeName");
         }
 
         config.put("groupMatchTarget", groupMatchTarget.name());
 
         if (groupMatchTarget == GroupMatchTarget.ATTRIBUTE) {
             config.put("groupMatchAttributeName", resourceMatchAttributeName);
+        } else {
+            config.remove("groupMatchAttributeName");
         }
 
         policy.setConfig(config);

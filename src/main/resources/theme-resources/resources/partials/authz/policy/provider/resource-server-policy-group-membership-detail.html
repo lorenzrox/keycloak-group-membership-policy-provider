@@ -40,16 +40,6 @@
                 <kc-tooltip>{{:: 'authz-policy-description.tooltip' | translate}}</kc-tooltip>
             </div>
 
-            <div class="form-group">
-                <label class="col-md-2 control-label" for="pattern">{{:: 'authz-policy-group-membership-pattern' |
-                    translate}} <span class="required">*</span></label>
-                <div class="col-sm-6">
-                    <input class="form-control" type="text" id="pattern" name="pattern" data-ng-model="policy.pattern"
-                        required>
-                </div>
-                <kc-tooltip>{{:: 'authz-policy-group-membership-pattern.tooltip' | translate}}</kc-tooltip>
-            </div>
-
             <div class="form-group clearfix">
                 <label class="col-md-2 control-label" for="resourceMatchTarget">{{::
                     'authz-policy-group-membership-resource-match-target' | translate}}</label>
@@ -68,7 +58,8 @@
                 <kc-tooltip>{{:: 'authz-policy-group-membership-resource-match-target.tooltip' | translate}}
                 </kc-tooltip>
             </div>
-            <div class="form-group" data-ng-show="policy.resourceMatchTarget == 'ATTRIBUTE'">
+
+            <div class="form-group" data-ng-if="policy.resourceMatchTarget == 'ATTRIBUTE'">
                 <label class="col-md-2 control-label" for="resourceMatchAttributeName">{{::
                     'authz-policy-group-membership-resource-match-attribute-name' | translate}} <span
                         class="required">*</span></label>
@@ -78,6 +69,15 @@
                 </div>
                 <kc-tooltip>{{:: 'authz-policy-group-membership-resource-match-attribute-name.tooltip' | translate}}
                 </kc-tooltip>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="pattern">{{:: 'authz-policy-group-membership-pattern' |
+                    translate}}</label>
+                <div class="col-sm-6">
+                    <input class="form-control" type="text" id="pattern" name="pattern" data-ng-model="policy.pattern">
+                </div>
+                <kc-tooltip>{{:: 'authz-policy-group-membership-pattern.tooltip' | translate}}</kc-tooltip>
             </div>
 
             <div class="form-group">
@@ -97,7 +97,7 @@
 
                 <kc-tooltip>{{:: 'authz-policy-group-membership-group-match-target.tooltip' | translate}}</kc-tooltip>
             </div>
-            <div class="form-group" data-ng-show="policy.groupMatchTarget == 'ATTRIBUTE'">
+            <div class="form-group" data-ng-if="policy.groupMatchTarget == 'ATTRIBUTE'">
                 <label class="col-md-2 control-label" for="groupMatchAttributeName">{{::
                     'authz-policy-group-membership-group-match-attribute-name' | translate}} <span
                         class="required">*</span></label>

@@ -18,6 +18,7 @@ import org.keycloak.authorization.model.Resource;
 import org.keycloak.authorization.policy.evaluation.Evaluation;
 import org.keycloak.authorization.policy.provider.PolicyProvider;
 import org.keycloak.models.GroupModel;
+import org.keycloak.models.GroupProvider;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.authorization.GroupMembershipPolicyRepresentation;
 
@@ -38,7 +39,9 @@ public class GroupMembershipPolicyProvider implements PolicyProvider {
                 authorizationProvider);
 
         RealmModel realm = authorizationProvider.getRealm();
-        List<GroupModel> allowedGroups = matchResourceGroups(evaluation.getPermission().getResource(), realm, policy);
+        GroupProvider groupProvider = authorizationProvider.getKeycloakSession().groups();
+        List<GroupModel> allowedGroups = matchResourceGroups(evaluation.getPermission().getResource(), groupProvider,
+                realm, policy);
         if (allowedGroups == null) {
             return;
         }
@@ -75,24 +78,24 @@ public class GroupMembershipPolicyProvider implements PolicyProvider {
     public void close() {
     }
 
-    private static List<GroupModel> matchResourceGroups(Resource resource, RealmModel realm,
-            GroupMembershipPolicyRepresentation policy) {
+    private static List<GroupModel> matchResourceGroups(Resource resource, GroupProvider groupProvider,
+            RealmModel realm, GroupMembershipPolicyRepresentation policy) {
         switch (policy.getResourceMatchTarget()) {
             case NAME:
-                return matchResourceGroupsByName(resource, realm, policy);
+                return matchResourceGroupsByName(resource, groupProvider, realm, policy);
             case URI:
-                return matchResourceGroupsByUris(resource, realm, policy);
+                return matchResourceGroupsByUris(resource, groupProvider, realm, policy);
             case ATTRIBUTE:
-                return matchResourceGroupsByAttribute(resource, realm, policy);
+                return matchResourceGroupsByAttribute(resource, groupProvider, realm, policy);
             default:
                 return null;
         }
     }
 
-    private static List<GroupModel> matchResourceGroupsByName(Resource resource, RealmModel realm,
-            GroupMembershipPolicyRepresentation policy) {
+    private static List<GroupModel> matchResourceGroupsByName(Resource resource, GroupProvider groupProvider,
+            RealmModel realm, GroupMembershipPolicyRepresentation policy) {
         if (policy.getPattern() == null) {
-            return matchGroups(resource.getName(), realm, policy);
+            return matchGroups(resource.getName(), groupProvider, realm, policy);
         } else {
             Pattern pattern = Pattern.compile(policy.getPattern());
             Matcher matcher = pattern.matcher(resource.getName());
@@ -100,12 +103,12 @@ public class GroupMembershipPolicyProvider implements PolicyProvider {
                 return null;
             }
 
-            return matchGroups(matcher.group(1), realm, policy);
+            return matchGroups(matcher.group(1), groupProvider, realm, policy);
         }
     }
 
-    private static List<GroupModel> matchResourceGroupsByAttribute(Resource resource, RealmModel realm,
-            GroupMembershipPolicyRepresentation policy) {
+    private static List<GroupModel> matchResourceGroupsByAttribute(Resource resource, GroupProvider groupProvider,
+            RealmModel realm, GroupMembershipPolicyRepresentation policy) {
         String attributeName = policy.getGroupMatchAttributeName();
         if (attributeName == null) {
             return null;
@@ -115,7 +118,7 @@ public class GroupMembershipPolicyProvider implements PolicyProvider {
         if (attribute != null) {
             if (policy.getPattern() == null) {
                 for (String value : attribute) {
-                    List<GroupModel> groups = matchGroups(value, realm, policy);
+                    List<GroupModel> groups = matchGroups(value, groupProvider, realm, policy);
                     if (groups != null) {
                         return groups;
                     }
@@ -129,7 +132,7 @@ public class GroupMembershipPolicyProvider implements PolicyProvider {
                         continue;
                     }
 
-                    List<GroupModel> groups = matchGroups(matcher.group(1), realm, policy);
+                    List<GroupModel> groups = matchGroups(matcher.group(1), groupProvider, realm, policy);
                     if (groups != null) {
                         return groups;
                     }
@@ -140,11 +143,11 @@ public class GroupMembershipPolicyProvider implements PolicyProvider {
         return null;
     }
 
-    private static List<GroupModel> matchResourceGroupsByUris(Resource resource, RealmModel realm,
-            GroupMembershipPolicyRepresentation policy) {
+    private static List<GroupModel> matchResourceGroupsByUris(Resource resource, GroupProvider groupProvider,
+            RealmModel realm, GroupMembershipPolicyRepresentation policy) {
         if (policy.getPattern() == null) {
             for (String uri : resource.getUris()) {
-                List<GroupModel> groups = matchGroups(uri, realm, policy);
+                List<GroupModel> groups = matchGroups(uri, groupProvider, realm, policy);
                 if (groups != null) {
                     return groups;
                 }
@@ -158,7 +161,7 @@ public class GroupMembershipPolicyProvider implements PolicyProvider {
                     continue;
                 }
 
-                List<GroupModel> groups = matchGroups(matcher.group(1), realm, policy);
+                List<GroupModel> groups = matchGroups(matcher.group(1), groupProvider, realm, policy);
                 if (groups != null) {
                     return groups;
                 }
@@ -168,15 +171,15 @@ public class GroupMembershipPolicyProvider implements PolicyProvider {
         return null;
     }
 
-    private static List<GroupModel> matchGroups(String input, RealmModel realm,
-            GroupMembershipPolicyRepresentation policy) {
+    private static List<GroupModel> matchGroups(String input, GroupProvider groupProvider,
+            RealmModel realm, GroupMembershipPolicyRepresentation policy) {
         if (input == null) {
             return null;
         }
 
         switch (policy.getGroupMatchTarget()) {
             case ID: {
-                GroupModel group = realm.getGroupById(input);
+                GroupModel group = groupProvider.getGroupById(realm, input);
                 if (group == null) {
                     return null;
                 }
@@ -184,7 +187,8 @@ public class GroupMembershipPolicyProvider implements PolicyProvider {
                 return Collections.singletonList(group);
             }
             case NAME: {
-                List<GroupModel> groups = realm.searchForGroupByNameStream(input, -1, -1).collect(Collectors.toList());
+                List<GroupModel> groups = groupProvider.searchForGroupByNameStream(realm, input, true, -1, -1)
+                        .collect(Collectors.toList());
                 if (groups.size() == 0) {
                     return null;
                 }
@@ -197,7 +201,7 @@ public class GroupMembershipPolicyProvider implements PolicyProvider {
                     return null;
                 }
 
-                List<GroupModel> groups = realm.getGroupsStream().filter(group -> {
+                List<GroupModel> groups = groupProvider.getGroupsStream(realm).filter(group -> {
                     return input.equals(group.getFirstAttribute(attributeName));
                 }).collect(Collectors.toList());
                 if (groups.size() == 0) {

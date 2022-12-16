@@ -4,7 +4,7 @@
 
     <groupId>org.keycloak</groupId>
     <artifactId>keycloak-group-membership-policy-provider</artifactId>
-    <version>17.0.1</version>
+    <version>999-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>KeyCloak AuthZ: Group Membership Policy Provider</name>
     <description>KeyCloak AuthZ: Group Membership Policy Providers</description>

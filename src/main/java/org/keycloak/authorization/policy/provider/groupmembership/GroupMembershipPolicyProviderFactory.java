@@ -1,6 +1,7 @@
 package org.keycloak.authorization.policy.provider.groupmembership;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.keycloak.Config;
 import org.keycloak.authorization.AuthorizationProvider;
@@ -9,15 +10,23 @@ import org.keycloak.authorization.policy.provider.PolicyProvider;
 import org.keycloak.authorization.policy.provider.PolicyProviderFactory;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
+import org.keycloak.provider.ConfiguredProvider;
+import org.keycloak.provider.ProviderConfigProperty;
+import org.keycloak.provider.ProviderConfigurationBuilder;
 import org.keycloak.representations.idm.authorization.GroupMatchTarget;
 import org.keycloak.representations.idm.authorization.GroupMembershipPolicyRepresentation;
 import org.keycloak.representations.idm.authorization.PolicyRepresentation;
 import org.keycloak.representations.idm.authorization.ResourceMatchTarget;
 
 public class GroupMembershipPolicyProviderFactory
-        implements PolicyProviderFactory<GroupMembershipPolicyRepresentation> {
+        implements PolicyProviderFactory<GroupMembershipPolicyRepresentation>, ConfiguredProvider {
+    private static final List<ProviderConfigProperty> configProperties;
 
     private GroupMembershipPolicyProvider provider = new GroupMembershipPolicyProvider(this::toRepresentation);
+
+    static {
+        configProperties = getConfigProps();
+    }
 
     @Override
     public String getId() {
@@ -32,6 +41,22 @@ public class GroupMembershipPolicyProviderFactory
     @Override
     public String getGroup() {
         return "Identity Based";
+    }
+
+    @Override
+    public String getHelpText() {
+        return "";
+    }
+
+    @Override
+    public List<ProviderConfigProperty> getConfigProperties() {
+        return configProperties;
+    }
+
+    private static List<ProviderConfigProperty> getConfigProps() {
+        // TODO: add configuration properties
+        return ProviderConfigurationBuilder.create()
+                .build();
     }
 
     @Override

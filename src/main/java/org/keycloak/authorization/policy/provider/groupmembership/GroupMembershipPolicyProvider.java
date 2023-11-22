@@ -9,7 +9,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.jboss.logging.Logger;
 import org.keycloak.authorization.AuthorizationProvider;
 import org.keycloak.authorization.attribute.Attributes;
 import org.keycloak.authorization.attribute.Attributes.Entry;
@@ -23,8 +22,6 @@ import org.keycloak.models.RealmModel;
 import org.keycloak.representations.idm.authorization.GroupMembershipPolicyRepresentation;
 
 public class GroupMembershipPolicyProvider implements PolicyProvider {
-    protected static final Logger logger = Logger.getLogger(GroupMembershipPolicyProvider.class);
-
     private final BiFunction<Policy, AuthorizationProvider, GroupMembershipPolicyRepresentation> representationFunction;
 
     public GroupMembershipPolicyProvider(

@@ -42,16 +42,16 @@
 
             <div class="form-group clearfix">
                 <label class="col-md-2 control-label" for="resourceMatchTarget">{{::
-                    'authz-policy-group-membership-resource-match-target' | translate}}</label>
+                    'authz-policy-group-membership.resource-match-target.label' | translate}}</label>
                 <div class="col-sm-1">
                     <select class="form-control" id="resourceMatchTarget" data-ng-model="policy.resourceMatchTarget"
                         data-ng-disabled="readOnly">
-                        <option value="NAME">{{:: 'authz-policy-group-membership-resource-match-target-name' |
+                        <option value="NAME">{{:: 'authz-policy-group-membership.resource-match-target-name' |
                             translate}}</option>
-                        <option value="URI">{{:: 'authz-policy-group-membership-resource-match-target-uri' |
+                        <option value="URI">{{:: 'authz-policy-group-membership.resource-match-target-uri' |
                             translate}}</option>
                         <option value="ATTRIBUTE">{{::
-                            'authz-policy-group-membership-resource-match-target-attribute' | translate}}</option>
+                            'authz-policy-group-membership.resource-match-target-attribute' | translate}}</option>
                     </select>
                 </div>
 
@@ -61,62 +61,62 @@
 
             <div class="form-group" data-ng-if="policy.resourceMatchTarget == 'ATTRIBUTE'">
                 <label class="col-md-2 control-label" for="resourceMatchAttributeName">{{::
-                    'authz-policy-group-membership-resource-match-attribute-name' | translate}} <span
+                    'authz-policy-group-membership.resource-match-attribute-name.label' | translate}} <span
                         class="required">*</span></label>
                 <div class="col-sm-6">
                     <input class="form-control" type="text" id="resourceMatchAttributeName"
                         name="resourceMatchAttributeName" data-ng-model="policy.resourceMatchAttributeName" required>
                 </div>
-                <kc-tooltip>{{:: 'authz-policy-group-membership-resource-match-attribute-name.tooltip' | translate}}
+                <kc-tooltip>{{:: 'authz-policy-group-membership.resource-match-attribute-name.tooltip' | translate}}
                 </kc-tooltip>
             </div>
 
             <div class="form-group">
-                <label class="col-md-2 control-label" for="pattern">{{:: 'authz-policy-group-membership-pattern' |
+                <label class="col-md-2 control-label" for="pattern">{{:: 'authz-policy-group-membership.pattern.label' |
                     translate}}</label>
                 <div class="col-sm-6">
                     <input class="form-control" type="text" id="pattern" name="pattern" data-ng-model="policy.pattern">
                 </div>
-                <kc-tooltip>{{:: 'authz-policy-group-membership-pattern.tooltip' | translate}}</kc-tooltip>
+                <kc-tooltip>{{:: 'authz-policy-group-membership.pattern.tooltip' | translate}}</kc-tooltip>
             </div>
 
             <div class="form-group">
                 <label class="col-md-2 control-label" for="groupMatchTarget">{{::
-                    'authz-policy-group-membership-group-match-target' | translate}}</label>
+                    'authz-policy-group-membership.group-match-target.label' | translate}}</label>
                 <div class="col-sm-1">
                     <select class="form-control" id="groupMatchTarget" data-ng-model="policy.groupMatchTarget"
                         data-ng-disabled="readOnly">
-                        <option value="ID">{{:: 'authz-policy-group-membership-group-match-target-id' |
+                        <option value="ID">{{:: 'authz-policy-group-membership.group-match-target-id' |
                             translate}}</option>
-                        <option value="NAME">{{:: 'authz-policy-group-membership-group-match-target-name' |
+                        <option value="NAME">{{:: 'authz-policy-group-membership.group-match-target-name' |
                             translate}}</option>
                         <option value="ATTRIBUTE">{{::
-                            'authz-policy-group-membership-group-match-target-attribute' | translate}}</option>
+                            'authz-policy-group-membership.group-match-target-attribute' | translate}}</option>
                     </select>
                 </div>
 
-                <kc-tooltip>{{:: 'authz-policy-group-membership-group-match-target.tooltip' | translate}}</kc-tooltip>
+                <kc-tooltip>{{:: 'authz-policy-group-membership.group-match-target.tooltip' | translate}}</kc-tooltip>
             </div>
             <div class="form-group" data-ng-if="policy.groupMatchTarget == 'ATTRIBUTE'">
                 <label class="col-md-2 control-label" for="groupMatchAttributeName">{{::
-                    'authz-policy-group-membership-group-match-attribute-name' | translate}} <span
+                    'authz-policy-group-membership.group-match-attribute-name.label' | translate}} <span
                         class="required">*</span></label>
                 <div class="col-sm-6">
                     <input class="form-control" type="text" id="groupMatchAttributeName" name="groupMatchAttributeName"
                         data-ng-model="policy.groupMatchAttributeName" required>
                 </div>
-                <kc-tooltip>{{:: 'authz-policy-group-membership-group-match-attribute-name.tooltip' | translate}}
+                <kc-tooltip>{{:: 'authz-policy-group-membership.group-match-attribute-name.tooltip' | translate}}
                 </kc-tooltip>
             </div>
 
             <div class="form-group">
-                <label class="col-md-2 control-label" for="groupsClaim">{{:: 'authz-policy-group-membership-claim' |
+                <label class="col-md-2 control-label" for="groupsClaim">{{:: 'authz-policy-group-membership.claim.label' |
                     translate}}</label>
                 <div class="col-sm-6">
                     <input class="form-control" type="text" id="groupsClaim" name="groupsClaim"
                         data-ng-model="policy.groupsClaim">
                 </div>
-                <kc-tooltip>{{:: 'authz-policy-group-membership-claim.tooltip' | translate}}</kc-tooltip>
+                <kc-tooltip>{{:: 'authz-policy-group-membership.claim.tooltip' | translate}}</kc-tooltip>
             </div>
             <div class="form-group">
                 <label class="col-md-2 control-label" for="logic">{{:: 'authz-policy-logic' | translate}}</label>

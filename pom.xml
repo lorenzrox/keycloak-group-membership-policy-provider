@@ -4,7 +4,7 @@
 
     <groupId>org.keycloak</groupId>
     <artifactId>keycloak-group-membership-policy-provider</artifactId>
-    <version>23.0.0</version>
+    <version>24.0.0</version>
     <packaging>jar</packaging>
     <name>KeyCloak AuthZ: Group Membership Policy Provider</name>
     <description>KeyCloak AuthZ: Group Membership Policy Providers</description>
@@ -17,8 +17,9 @@
         <version.org.keycloak>${project.version}</version.org.keycloak>
         
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
     <dependencies>

@@ -26,28 +26,11 @@ public class GroupMembershipPolicyProviderFactory
     private static final List<ProviderConfigProperty> configProperties = new ArrayList<ProviderConfigProperty>();
 
     private static final String GROUPS_CLAIM = "groupsClaim";
-    private static final String GROUPS_CLAIM_LABEL = "authz-policy-group-membership.claim.label";
-    private static final String GROUPS_CLAIM_HELP_TEXT = "authz-policy-group-membership.claim.tooltip";
-
     private static final String PATTERN = "pattern";
-    private static final String PATTERN_LABEL = "authz-policy-group-membership.pattern.label";
-    private static final String PATTERN_HELP_TEXT = "authz-policy-group-membership.pattern.tooltip";
-
     private static final String RESOURCE_MATCH_TARGET = "resourceMatchTarget";
-    private static final String RESOURCE_MATCH_TARGET_LABEL = "authz-policy-group-membership.resource-match-target.label";
-    private static final String RESOURCE_MATCH_TARGET_HELP_TEXT = "authz-policy-group-membership.resource-match-target.tooltip";
-
     private static final String RESOURCE_MATCH_ATTRIBUTE_NAME = "resourceMatchAttributeName";
-    private static final String RESOURCE_MATCH_ATTRIBUTE_NAME_LABEL = "authz-policy-group-membership.resource-match-attribute-name.label";
-    private static final String RESOURCE_MATCH_ATTRIBUTE_NAME_HELP_TEXT = "authz-policy-group-membership.resource-match-attribute-name.tooltip";
-
     private static final String GROUP_MATCH_TARGET = "groupMatchTarget";
-    private static final String GROUP_MATCH_TARGET_LABEL = "authz-policy-group-membership.group-match-target.label";
-    private static final String GROUP_MATCH_TARGET_HELP_TEXT = "authz-policy-group-membership.group-match-target.tooltip";
-
     private static final String GROUP_MATCH_ATTRIBUTE_NAME = "groupMatchAttributeName";
-    private static final String GROUP_MATCH_ATTRIBUTE_NAME_LABEL = "authz-policy-group-membership.group-match-attribute-name.label";
-    private static final String GROUP_MATCH_ATTRIBUTE_NAME_HELP_TEXT = "authz-policy-group-membership.group-match-attribute-name.tooltip";
 
     private static final String PROVIDER_ID = "group-membership";
 
@@ -56,24 +39,25 @@ public class GroupMembershipPolicyProviderFactory
     static {
         ProviderConfigProperty groupsClaimProperty = new ProviderConfigProperty();
         groupsClaimProperty.setName(GROUPS_CLAIM);
-        groupsClaimProperty.setLabel(GROUPS_CLAIM_LABEL);
+        groupsClaimProperty.setLabel("Groups Claim");
         groupsClaimProperty.setType(ProviderConfigProperty.STRING_TYPE);
-        groupsClaimProperty.setHelpText(GROUPS_CLAIM_HELP_TEXT);
+        groupsClaimProperty.setHelpText(
+                "If defined, the policy will fetch user's groups from the given claim within an access token or ID token representing the identity asking permissions. If not defined, user's groups are obtained from your realm configuration");
         configProperties.add(groupsClaimProperty);
 
         ProviderConfigProperty patternProperty = new ProviderConfigProperty();
         patternProperty.setName(PATTERN);
-        patternProperty.setLabel(PATTERN_LABEL);
+        patternProperty.setLabel("Regex Pattern");
         patternProperty.setType(ProviderConfigProperty.STRING_TYPE);
-        patternProperty.setHelpText(PATTERN_HELP_TEXT);
+        patternProperty.setHelpText("Specifies the regex pattern used to match group identifier.");
 
         configProperties.add(patternProperty);
 
         ProviderConfigProperty resourceMatchTargetProperty = new ProviderConfigProperty();
         resourceMatchTargetProperty.setName(RESOURCE_MATCH_TARGET);
-        resourceMatchTargetProperty.setLabel(RESOURCE_MATCH_TARGET_LABEL);
+        resourceMatchTargetProperty.setLabel("Resource field");
         resourceMatchTargetProperty.setType(ProviderConfigProperty.MULTIVALUED_STRING_TYPE);
-        resourceMatchTargetProperty.setHelpText(RESOURCE_MATCH_TARGET_HELP_TEXT);
+        resourceMatchTargetProperty.setHelpText("Specifies how group identifier is defined within the resource");
         resourceMatchTargetProperty.setOptions(Stream.of(ResourceMatchTarget.values())
                 .map(Enum::name).collect(Collectors.toList()));
 
@@ -81,17 +65,17 @@ public class GroupMembershipPolicyProviderFactory
 
         ProviderConfigProperty resourceMatchAttributeProperty = new ProviderConfigProperty();
         resourceMatchAttributeProperty.setName(RESOURCE_MATCH_ATTRIBUTE_NAME);
-        resourceMatchAttributeProperty.setLabel(RESOURCE_MATCH_ATTRIBUTE_NAME_LABEL);
+        resourceMatchAttributeProperty.setLabel("Resource Attribute name");
         resourceMatchAttributeProperty.setType(ProviderConfigProperty.STRING_TYPE);
-        resourceMatchAttributeProperty.setHelpText(RESOURCE_MATCH_ATTRIBUTE_NAME_HELP_TEXT);
+        resourceMatchAttributeProperty.setHelpText("Resource Attribute name used for matching");
 
         configProperties.add(resourceMatchAttributeProperty);
 
         ProviderConfigProperty groupMatchTargetProperty = new ProviderConfigProperty();
         groupMatchTargetProperty.setName(GROUP_MATCH_TARGET);
-        groupMatchTargetProperty.setLabel(GROUP_MATCH_TARGET_LABEL);
+        groupMatchTargetProperty.setLabel("Group field");
         groupMatchTargetProperty.setType(ProviderConfigProperty.MULTIVALUED_STRING_TYPE);
-        groupMatchTargetProperty.setHelpText(GROUP_MATCH_TARGET_HELP_TEXT);
+        groupMatchTargetProperty.setHelpText("Specifies how group is matched");
         groupMatchTargetProperty.setOptions(Stream.of(GroupMatchTarget.values())
                 .map(Enum::name).collect(Collectors.toList()));
 
@@ -99,9 +83,9 @@ public class GroupMembershipPolicyProviderFactory
 
         ProviderConfigProperty groupMatchAttributeProperty = new ProviderConfigProperty();
         groupMatchAttributeProperty.setName(GROUP_MATCH_ATTRIBUTE_NAME);
-        groupMatchAttributeProperty.setLabel(GROUP_MATCH_ATTRIBUTE_NAME_LABEL);
+        groupMatchAttributeProperty.setLabel("Group Attribute name");
         groupMatchAttributeProperty.setType(ProviderConfigProperty.STRING_TYPE);
-        groupMatchAttributeProperty.setHelpText(GROUP_MATCH_ATTRIBUTE_NAME_HELP_TEXT);
+        groupMatchAttributeProperty.setHelpText("Group Attribute name used for matching");
 
         configProperties.add(groupMatchAttributeProperty);
     }

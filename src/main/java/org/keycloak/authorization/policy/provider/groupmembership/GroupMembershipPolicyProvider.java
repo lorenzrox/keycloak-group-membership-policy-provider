@@ -192,6 +192,27 @@ public class GroupMembershipPolicyProvider implements PolicyProvider {
 
                 return groups;
             }
+            case PATH: {
+                List<GroupModel> groups;
+
+                if (input.indexOf('/') != -1) {
+                    groups = groupProvider.getGroupsStream(realm)
+                            .filter(g -> {
+                                String allowedGroupPath = buildGroupPath(g);
+                                return input.equals(allowedGroupPath) || input.startsWith(allowedGroupPath);
+                            })
+                            .collect(Collectors.toList());
+                } else {
+                    groups = groupProvider.searchForGroupByNameStream(realm, input, true, -1, -1)
+                            .collect(Collectors.toList());
+                }
+
+                if (groups.size() == 0) {
+                    return null;
+                }
+
+                return groups;
+            }
             case ATTRIBUTE: {
                 String attributeName = policy.getGroupMatchAttributeName();
                 if (attributeName == null) {
